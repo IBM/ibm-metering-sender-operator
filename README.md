@@ -1,2 +1,3 @@
 # ibm-metering-sender-operator
-Operator used to manage the metering multicloud user interface
+
+Operator used to manage the metering sender component

@@ -1,0 +1,24 @@
+apiVersion: operator.ibm.com/v1alpha1
+kind: MeteringSender
+metadata:
+  name: meteringsender
+  labels:
+    app.kubernetes.io/instance: "ibm-metering-sender-operator"
+    app.kubernetes.io/managed-by: "ibm-metering-sender-operator"
+    app.kubernetes.io/name: "ibm-metering"
+spec:
+  version: "3.6.3"
+  imageRegistry: quay.io/opencloudio
+  sender:
+    clusterName: mycluster
+    clusterNamespace: ibm-common-services
+    hubKubeConfigSecret: multicluster-endpoint/endpoint-connmgr-hub-kubeconfig
+  mongodb:
+    host: mongodb
+    port: 27017
+    usernameSecret: icp-mongodb-admin
+    usernameKey: user
+    passwordSecret: icp-mongodb-admin
+    passwordKey: password
+    clustercertssecret: mongodb-root-ca-cert
+    clientcertssecret: icp-mongodb-client-cert
