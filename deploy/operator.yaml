@@ -44,12 +44,10 @@ spec:
           # Replace this with the built image name
           image: quay.io/opencloudio/ibm-metering-sender-operator:latest
           command:
-          - ibm-metering-operator
+          - ibm-metering-sender-operator
           imagePullPolicy: Always
           env:
             - name: IMAGE_SHA_OR_TAG_DM
-              value: 3.6.0
-            - name: IMAGE_SHA_OR_TAG_MCMUI
               value: 3.6.0
             - name: WATCH_NAMESPACE
               valueFrom:
