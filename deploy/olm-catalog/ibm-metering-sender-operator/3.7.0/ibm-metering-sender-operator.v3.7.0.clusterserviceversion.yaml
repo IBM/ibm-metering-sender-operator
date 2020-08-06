@@ -56,7 +56,7 @@ spec:
     - description: MeteringSender is the Schema for the meteringsenders API
       kind: MeteringSender
       name: meteringsenders.operator.ibm.com
-      displayName: Metering multicloud sender
+      displayName: IBM Metering Sender Operator
       version: v1alpha1
       specDescriptors:
         - description: Operator version
@@ -68,11 +68,11 @@ spec:
         - description: Connection information for MongoDB
           displayName: MongoDB
           path: mongodb
-        - description: Configuration information for Metering multicloud sender
+        - description: Configuration information for Metering sender
           displayName: Sender
           path: sender
       statusDescriptors:
-        - description: The list of Pods for the Metering multicloud sender service
+        - description: The list of Pods for the Metering sender service
           displayName: Pod Status
           path: podNames
       resources:
@@ -117,6 +117,23 @@ spec:
     mediatype: image/png
   install:
     spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - certmanager.k8s.io
+          resources:
+          - clusterissuers
+          verbs:
+          - use
+        - apiGroups:
+          - ""
+          resources:
+          - secrets
+          resourceNames:
+          - endpoint-connmgr-hub-kubeconfig
+          verbs:
+          - get
+        serviceAccountName: ibm-metering-sender-operator
       deployments:
       - name: ibm-metering-sender-operator
         spec:
@@ -151,7 +168,7 @@ spec:
                         - s390x
               containers:
               - command:
-                - ibm-metering-operator
+                - ibm-metering-sender-operator
                 env:
                 - name: IMAGE_SHA_OR_TAG_DM
                   value: 3.6.0
@@ -256,6 +273,33 @@ spec:
           - operator.ibm.com
           resources:
           - '*'
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - certmanager.k8s.io
+          resources:
+          - '*'
+          - certificates
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - networking.k8s.io
+          - extensions
+          resources:
+          - '*'
+          - ingresses
           verbs:
           - create
           - delete
